@@ -124,32 +124,38 @@ public class Game {
                 displayTotalScore(); //Display total score.
                 checkHighScores(); //Check if player achieved a new highscore.
                 logGameEvent("Player couldn't make 15. Game over."); //Game event is logged.
-                System.out.println("Would you like to:");
-                System.out.println("A) Play again.");
-                System.out.println("B) View a replay.");
-                System.out.println("C) Exit the game.");
-                while (true) {
-                    char option = scanner.next().charAt(0);
-                    if (option == 'a' || option == 'A') {
-                        totalScore = 0; //Total score is reset to 0.
-                        logGameEvent("Player chose to play again."); //Game event is logged.
-                        System.out.println(roundNum+1); //Round number is increased.
-                        play(); //New game is started with a new shuffled deck.
-                        return true;
-                    } else if (option == 'b' || option == 'B') {
-                        logGameEvent("Player chose to view a replay.");//Game event is logged.
-                        viewReplay(); //Player is offered the chance to view a replay of their game.
-                        return false;
-                    } else if (option == 'c' || option == 'C') {
-                        System.out.println("Thank you for playing!");
-                        return false;
-                    } else {
-                        System.out.println("Invalid input. Please select either A, B or C");
-                    }
-                }
+                gameOverScreen();
+                return false;
             }
         }
         return true;
+    }
+
+    public boolean gameOverScreen() {
+        System.out.println("Would you like to:");
+        System.out.println("A) Play again.");
+        System.out.println("B) View a replay.");
+        System.out.println("C) Exit the game.");
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            char option = scanner.next().charAt(0);
+            if (option == 'a' || option == 'A') {
+                totalScore = 0; //Total score is reset to 0.
+                logGameEvent("Player chose to play again."); //Game event is logged.
+                System.out.println(roundNum+1); //Round number is increased.
+                play(); //New game is started with a new shuffled deck.
+                return true;
+            } else if (option == 'b' || option == 'B') {
+                logGameEvent("Player chose to view a replay.");//Game event is logged.
+                replayGame();; //Player is offered the chance to view a replay of their game.
+                return false;
+            } else if (option == 'c' || option == 'C') {
+                System.out.println("Thank you for playing!");
+                return false;
+            } else {
+                System.out.println("Invalid input. Please select either A, B or C");
+            }
+        }
     }
 
     public void play() {
@@ -243,24 +249,6 @@ public class Game {
         gameReplay.add(event);
     }
 
-    //Method for asking the player if they want to view a replay of their game.
-    public void viewReplay() {
-        boolean isViewingReplay = false;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to view a replay of the game? (y/n)");
-        while (!isViewingReplay) {
-            char option = scanner.next().charAt(0);
-            if (option == 'y' || option == 'Y') {
-                replayGame();
-                isViewingReplay = true;
-            } else if (option == 'n' || option == 'N') {
-                break;
-            } else {
-                System.out.println("Invalid input. PLease enter y or n");
-            }
-        }
-    }
-
     //Method for setting the round number.
     public void setRoundNum(int roundNum) {
             this.roundNum = roundNum;
@@ -272,6 +260,7 @@ public class Game {
         for (String event : gameReplay) {
             System.out.println(event);
         }
+        gameOverScreen();
     }
 
     //Method for keeping track of the round number in the replay.
