@@ -1,6 +1,7 @@
 Make 15 Card Game.
 
 *RULES*
+
 Level 1: A player is dealt 5 cards from a shuffled deck. The hand of cards is displayed in the
 console.
 
