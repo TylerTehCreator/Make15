@@ -72,11 +72,12 @@ public class Game {
     private boolean make15Round(Card computerCard) {
         Scanner scanner = new Scanner(System.in);
         boolean made15 = false;
+        boolean is_Running = true;
         boolean playedSameSuit = false;
     
         logGameEvent("Computer card: " + computerCard);//Logs card dealt to computer.
     
-        while (!made15) {
+        while (!made15 && is_Running) {
             System.out.println("Select a card to play (1-5) (0 to exit)");
             int choice = scanner.nextInt();
             if (choice == 0) { //Program closes.
@@ -123,25 +124,30 @@ public class Game {
                 displayTotalScore(); //Display total score.
                 checkHighScores(); //Check if player achieved a new highscore.
                 logGameEvent("Player couldn't make 15. Game over."); //Game event is logged.
-                System.out.println("Would you like to play again? (y/n)");
+                System.out.println("Would you like to:");
+                System.out.println("A) Play again.");
+                System.out.println("B) View a replay.");
+                System.out.println("C) Exit the game.");
                 while (true) {
                     char option = scanner.next().charAt(0);
-                    if (option == 'y' || option == 'Y') {
+                    if (option == 'a' || option == 'A') {
                         totalScore = 0; //Total score is reset to 0.
                         logGameEvent("Player chose to play again."); //Game event is logged.
                         System.out.println(roundNum+1); //Round number is increased.
                         play(); //New game is started with a new shuffled deck.
                         return true;
-                    } else if (option == 'n' || option == 'N') {
-                        logGameEvent("Player chose to end the game.");//Game event is logged.
-                        break;
+                    } else if (option == 'b' || option == 'B') {
+                        logGameEvent("Player chose to view a replay.");//Game event is logged.
+                        viewReplay(); //Player is offered the chance to view a replay of their game.
+                        return false;
+                    } else if (option == 'c' || option == 'C') {
+                        System.out.println("Thank you for playing!");
+                        return false;
                     } else {
-                        System.out.println("Invalid input. Please enter y or n");
+                        System.out.println("Invalid input. Please select either A, B or C");
                     }
                 }
-
             }
-            viewReplay(); //Player is offered the chance to view a replay of their game.
         }
         return true;
     }
